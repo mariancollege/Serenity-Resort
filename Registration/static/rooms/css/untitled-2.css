@@ -1,0 +1,6 @@
+li a:hover:not(.active) {
+  background-color: #a6b6e6;
+  color: white;
+  border: none;
+}
+

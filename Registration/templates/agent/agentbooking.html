@@ -1,0 +1,670 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="{% static 'agentview/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kaushan+Script">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700">
+    <link rel="stylesheet" href="{% static 'agentview/fonts/font-awesome.min.css' %}">
+
+    <style>
+        .a {
+
+            color: dimgray;
+            border-radius: 45px;
+            border: none;
+            height: 50px;
+            width: 50px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+
+
+        }
+
+        .a:hover {
+            background: green;
+            color: white;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark" id="mainNav">
+        <div class="container"><img src="{% static 'agentview/img/ser_logo.png' %}" style="width: 100px;"><button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler navbar-toggler-right" type="button" data-toogle="collapse" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto text-uppercase">
+                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" style="cursor: pointer"  onclick="location.href='/agentview'">Home</a></li>
+<li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" style="cursor: pointer"  onclick="location.href='/agentbooking'">New booking</a></li>
+
+                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" style="cursor: pointer"  onclick="location.href='/allbookings'">My bookings</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link js-scroll-trigger" style="cursor: pointer" onclick="location.href='{% url 'logout' %}'">Logout</a></li>
+                    <li class="nav-item" role="presentation"></li>
+                    <li class="nav-item" role="presentation"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                <div class="container-fluid" style="background: whitesmoke; padding-top: 200px;padding-left: 150px;padding-right: 150px">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 style="font-weight: 500;color: #2c2c2c">
+                            NEW BOOKING</h3><label>{{ usersession.agentid }}</label>
+                    </div>
+
+                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                    <div style=" background: white;/*padding: 30px;*/">
+
+                        <div>
+                            <div class="card-header" style="padding: 0px;background-color:  #406182  ; ">
+                                <h3 style="font-size: 20px;margin-left: 45px;padding-top: 20px;color: white;font-weight: 700;">
+                                    Coustomer details</h3>
+                            </div>
+                            <input hidden
+                                                                type="text" name="agentname" id="fullname"
+                                                                value="{{ usersession.agent_name }}"
+                                                                required readonly style="background: white"
+                                                                class="form-control form-control-user"
+                                                                placeholder="Full name">
+                                                            <input hidden
+                                                                   type="text" name="agentid" id="fullname"
+                                                                   value="{{ usersession.agentid }}"
+                                                                   required readonly style="background: white"
+                                                                   class="form-control form-control-user"
+                                                                   placeholder="Full name">
+                            <input type="text" name="agentnumber" hidden
+                                                                        id="aphone"
+                                                                        required value="{{usersession.aget_phone}}"
+                                                        {#                                                                        oninput="maxLengthCheck(this)" maxlength="10"#}
+                                                                        class="form-control form-control-user"
+                                                                        readonly style="background: white"
+                                                                        placeholder="Contact number">
+                            <div class="card-footer"
+                                 style="padding-right: 45px;/*padding-bottom: 60px;*/padding-left: 48px;padding-top: 40px;background-color: white;">
+                                <input hidden class="form-control form-control-user" name="checkindate"
+                                       id="checkindate"
+                                       value="{{ today }}" style="background:white ">
+                                <div class="row" style="margin-top: 15px;margin-bottom: 20px;">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Basic information</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><input type="text"
+                                                    {#                                                                    oninput="document.getElementById('grcnumber').value=document.getElementById('1').value"#}
+                                                                    class="form-control form-control-user"
+                                                                    placeholder="Full name" name="cfname"
+                                                                    id="cfname" required autofocus></div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><input type="number" oninput="maxLengthCheck(this)"
+                                                                    maxlength="10" minlength="5"
+                                                                    class="form-control form-control-user"
+                                                                    placeholder="Contact number" name="cphone"
+                                                                    id="cphone" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><input type="email"
+                                                                    class="form-control form-control-user"
+                                                                    placeholder="Email id" name="cemail"
+                                                                    id="cemail" required></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Address</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="text" name="caddress" id="caddress"
+                                                                    required
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Age</label><label
+                                                    style="color: red;">*</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="number" name="cage" id="cage" required placeholder=">18"
+                                                                    oninput="maxLengthCheck(this)" maxlength="2" min="18"
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Gender</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="dropdown">
+                                                    <select class="form-control form-control-user" required
+                                                            name="cgender" id="cgender">
+                                                        <option>Select one</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                        <option value="Transgender">Transgender</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Marital status</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="dropdown">
+                                                    <select class="form-control form-control-user"
+                                                            id="cmaritalstatus" name="cmaritalstatus">
+                                                        <option>Select one</option>
+                                                        <option value="Married">Married</option>
+                                                        <option value="Unmarried">Unmarried</option>
+                                                        <option value="Seperated">Seperated</option>
+                                                        <option value="Widowed">Widowed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Country</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="text" name="ccountry" id="ccountry"
+                                                                    required
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>State</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="text" id="cstate" name="cstate"
+                                                                    required
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>District</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="text" name="cdistrict" id="cdistrict"
+                                                                    required
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Pincode</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="number" name="cpincode" id="cpincode"
+                                                                    required oninput="maxLengthCheck(this)"
+                                                                    maxlength="6"
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card-header"
+                                 style="padding: 0px;background:  #406182 ;margin-top: 50px">
+                                <h3 style="font-size: 20px;margin-left: 45px;padding-top: 20px;color: white;font-weight: 700;">
+                                    Booking information</h3>
+                            </div>
+                            <div class="card-footer"
+                                 style="padding-right: 45px;/*padding-bottom: 60px;*/padding-left: 48px;padding-top: 40px;background-color: white;">
+                                <div>
+                                    <div class="row" style=" background: #82a3c4;padding: 10px">
+                                        <div class="col"
+                                             style="border-right: solid white 5px; color: white;margin-right: 5px;text-align: center">
+                                            <div style="text-align: center;position: relative;top: 25%">
+                                                <label style="font-size: 16px;font-weight: bold">ROYAL
+                                                    SUITE</label>
+                                            </div>
+                                        </div>
+                                        <div class="col"
+                                             style="border-right: solid white 5px; color: white;margin-right: 5px;text-align: center">
+                                            <div style="text-align: center;position: relative;top: 25%">
+                                                <label style="font-size: 16px;font-weight: bold">PREMIUM
+                                                    SUITE</label>
+                                            </div>
+                                        </div>
+                                        <div class="col"
+                                             style="border-right: solid white 5px; color: white;margin-right: 5px;text-align: center">
+                                            <div style="text-align: center;position: relative;top: 25%">
+                                                <label style="font-size: 16px;font-weight: bold">EXECUTIVE
+                                                    SUITE</label>
+                                            </div>
+                                        </div>
+                                        <div class="col"
+                                             style=" color: white;margin-right: 5px;text-align: center">
+                                            <div style="text-align: center;position: relative;top: 25%">
+                                                <label style="font-size: 16px;font-weight: bold">TENT
+                                                    CAMPING</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row"
+                                         style="margin-bottom: 20px; background: #82a3c4;padding: 10px"
+                                         onclick="passvaluetobtn1()">
+
+                                        <div class="col" style="background: white;margin-right: 5px">
+
+                                            <div class="row" style="padding-left: 15px;padding-top: 10px;" ondblclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 onclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText">
+                                                {% for item in roomob1 %}
+                                                    <input type="button" id="demo" class="a"
+                                                            ondblclick="removeLi({{ item.roomnumber }})"
+                                                           onclick="addTextNode({{ item.roomnumber }});"
+                                                           value="{{ item.roomnumber }}">
+
+                                                {% endfor %}
+                                                {% for i in roysuiteval %}
+                                                    <input id="s1" value="{{ i.rate }}" style="width: 75px" hidden>
+                                                {% endfor %}
+
+
+                                                <p id="p1" hidden></p>
+                                            </div>
+                                        </div>
+                                        <div class="col" style="background: white;margin-right: 5px">
+
+                                            <div class="row" ondblclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 onclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 style="padding-left: 15px;padding-top: 10px;padding-bottom: 10px">
+                                                {% for item in roomob2 %}
+                                                    <input type="button"
+                                                           class="a"
+                                                           ondblclick="removeLi({{ item.roomnumber }})"
+                                                           onclick="addTextNode({{ item.roomnumber }});"
+                                                           value="{{ item.roomnumber }}">
+                                                {% endfor %}
+                                                {% for i in presuiteval %}
+                                                    <input id='s2' value="{{ i.rate }}" style="width: 75px" hidden>
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                        <div class="col" style="background: white;margin-right: 5px">
+
+                                            <div class="row" ondblclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 onclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 style="padding-left: 15px;padding-top: 10px;padding-bottom: 10px">
+                                                {% for item in roomob3 %}
+                                                    <input type="button"
+                                                           class="a"
+                                                           ondblclick="removeLi({{ item.roomnumber }})"
+                                                           onclick="addTextNode({{ item.roomnumber }});"
+                                                           value="{{ item.roomnumber }}">
+                                                {% endfor %}
+                                                {% for i in exesuiteval %}
+                                                    <input id='s3' value="{{ i.rate }}" style="width: 75px" hidden>
+                                                {% endfor %}
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col" style="background: white;margin-right: 5px">
+                                            <div class="row" ondblclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 onclick="document.getElementById('selectedrooms').value=document.getElementById('p1').innerText"
+                                                 style="padding-left: 15px;padding-top: 10px;padding-bottom: 10px">
+                                                {% for item in roomob4 %}
+                                                    <input type="button"
+                                                           class="a"
+                                                           ondblclick="removeLi({{ item.roomnumber }})"
+                                                           onclick="addTextNode({{ item.roomnumber }});"
+                                                           value="{{ item.roomnumber }}">
+                                                {% endfor %}
+                                                {% for i in tensuiteval %}
+                                                    <input id='s4' value="{{ i.rate }}" style="width: 75px" hidden>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>No of rooms</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="number" name="numberofrooms"
+                                                                    id="numberofrooms" required
+                                                                    oninput="maxLengthCheck(this)" maxlength="3"
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Room number</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col"><input type="text" name="selectedrooms"
+                                                                    id="selectedrooms" required
+                                                                    oninput="test()"
+                                                                    class="form-control form-control-user">
+                                                <input id="d" hidden
+                                                       onload="document.getElementById(this).value=document.getElementById('p1').innerText">
+                                                {#                                                        <input id="test" onkeyup="test();">#}
+                                                <input name="bkid" value="{{ bookingid }}" hidden>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>No of adults</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="number" name="numberofadults"
+                                                                    id="numberofadults" required
+                                                                    oninput="maxLengthCheck(this)" maxlength="3"
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>No of childrens</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input type="number" name="numberofchildrens"
+                                                                    id="numberofchildrens" required
+                                                                    oninput="maxLengthCheck(this)" maxlength="3"
+                                                                    class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Proof submitted</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <select class="form-control form-control-user" id="proofsubmitted"
+                                                    name="proofsubmitted" required>
+                                                <option>Select one</option>
+                                                <option value="ID Card">ID card</option>
+                                                <option value="Aadhar card">Aadhar card</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Check-in</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input class="form-control form-control-user"
+                                                                    name="checkin" id="checkin"
+                                                                    type="date"
+                                                                    style="background:white ">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col"><label>Check-out</label><label
+                                                    style="color: red;">*</label></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col"><input class="form-control form-control-user"
+                                                                    name="checkout" id="checkout" required
+                                                                    type="date"></div>
+                                        </div>
+                                        <input type="number" name="totalamount" readonly hidden
+                                                                    id="totalamount" required value="0"
+                                                                    class="form-control form-control-user">
+                                        <input hidden
+{#                                                    onchange="calcbalance()" #}
+                                                    type="number"
+                                                                    name="advanceamount" id="advanceamount"
+                                                                    required value="0"
+                                                                    class="form-control form-control-user">
+                                        <input style="background: white" readonly value="0" hidden
+                                                                    type="text" name="balanceamount"
+                                                                    id="balanceamount" required
+                                                                    class="form-control form-control-user">
+                                        <select class="form-control form-control-user" id="paymentmode" hidden
+                                                    name="paymentmode" required>
+                                                <option value="Not done">Not done</option>
+
+                                            </select>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <input type="text" name="grcnumber" hidden
+                                                       id="grcnumber" required value="None"
+                                                       class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; padding-top: 40px;border-top: solid rgb(242,242,242);margin-top: 70px;padding-bottom: 50px;">
+                            <button class="btn btn-primary" type="submit" id="btn1"
+                                    style="width: 120px; border: none;background: rgb(86,180,86)"
+                                    onclick="if(confirm('Are you sure ? Customer is ready to book these rooms?')){}else{return false;}"
+                                    name="btn1">Submit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4"
+                         style="margin-top: 100px;">
+                        {#                                <h3 class="text-dark mb-0" style="font-weight: 500;"><i class="fas fa-plus-square"></i>#}
+                        {#                                    Update</h3>#}
+                    </div>
+
+                </form>
+            </div>
+
+
+
+    <script src="{% static 'agentview/js/jquery.min.js' %}"></script>
+    <script src="{% static 'agentview/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'agentview/js/agency.js' %}"></script>
+
+    <script>
+    if (localStorage) {
+        function a() {
+            window.localStorage['fname'] = document.getElementById('fname').value;
+            window.localStorage['house_name'] = document.getElementById('caddress').value;
+            window.localStorage['district'] = document.getElementById('cdistrict').value;
+            window.localStorage['state'] = document.getElementById('cstate').value;
+            window.localStorage['pincode'] = document.getElementById('cpincode').value;
+            window.localStorage['gender'] = document.getElementById('cgender').value;
+            window.localStorage['age'] = document.getElementById('cage').value;
+            window.localStorage['phone'] = document.getElementById('cphone').value;
+            window.localStorage['checkin'] = document.getElementById('checkin').value;
+            window.localStorage['checkout'] = document.getElementById('checkout').value;
+            window.localStorage['room_type'] = document.getElementById('roomtype').value;
+            window.localStorage['no_of_rooms'] = document.getElementById('numberofrooms').value;
+            window.localStorage['room_no'] = document.getElementById('roomnumber').value;
+            window.localStorage['grc_no'] = document.getElementById('grcnumber').value;
+            window.localStorage['no_of_adults'] = document.getElementById('numberofadults').value;
+            window.localStorage['no_of_childrens'] = document.getElementById('numberofchildrens').value;
+            window.localStorage['advance_amount'] = document.getElementById('advanceamount').value;
+            window.localStorage['balance_amount'] = document.getElementById('balanceamount').value;
+            window.localStorage['total_amount'] = document.getElementById('totalamount').value;
+
+        }
+    }
+
+    function removeroom(text) {
+        newText = document.getElementById("selectedrooms").value;
+        newText = newText.replace(/text/gi, '');
+        document.getElementById("selectedrooms").value = "";
+        //document.getElementById("selectedrooms").value=newText;
+        alert(newText);
+        newText = null;
+    }
+
+    function calcbalance() {
+        var a = document.getElementById('totalamount');
+        var b = document.getElementById('advanceamount');
+        var bal = parseInt(a.value) - parseInt(b.value);
+        document.getElementById('balanceamount').value = bal.toString();
+    }
+
+    function updatedcalcbalance() {
+        var a = document.getElementById('updatedtotalamount');
+        var b = document.getElementById('updatedadvanceamount');
+        var bal = parseInt(a.value) - parseInt(b.value);
+        document.getElementById('updatedbalanceamount').value = bal.toString();
+    }
+
+    function maxLengthCheck(object) {
+        if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength)
+
+
+    }
+
+
+    function disable() {
+
+        document.getElementById("numberofrooms").required = false;
+        document.getElementById("numberofchildrens").required = false;
+        document.getElementById("numberofadults").required = false;
+        document.getElementById("grcnumber").required = false;
+        document.getElementById("cfname").required = false;
+        document.getElementById("caddress").required = false;
+        document.getElementById("cage").required = false;
+        document.getElementById("cgender").required = false;
+        document.getElementById("ccountry").required = false;
+        document.getElementById("cstate").required = false;
+        document.getElementById("cdistrict").required = false;
+        document.getElementById("cpincode").required = false;
+        document.getElementById("cphone").required = false;
+        document.getElementById("cemail").required = false;
+        document.getElementById("totalamount").required = false;
+        document.getElementById("advanceamount").required = false;
+        document.getElementById("selectedrooms").required = false;
+        document.getElementById("checkout").required = false;
+
+
+    }
+
+    {#function addTextNode(text) {#}
+    {#    var amt = 0;#}
+    {#    var newtext = '';#}
+    {#    var arr = [];#}
+    {#    var s1 = document.getElementById("s1");#}
+    {#    var s2 = document.getElementById("s2");#}
+    {#    var s3 = document.getElementById("s3");#}
+    {#    var s4 = document.getElementById("s4");#}
+    {##}
+    {#    newtext = document.createTextNode(text + ',');#}
+    {#    #}
+    {#    p1 = document.getElementById("p1");#}
+    {#    p1.appendChild(newtext);#}
+    {##}
+
+    function addTextNode(text) {
+
+        newtext = document.createTextNode(text + ',');
+
+        p1 = document.getElementById("p1");
+        var str=p1.innerText;
+        if(!str.includes(newtext.wholeText))
+            p1.appendChild(newtext);
+
+    }
+
+    function removeLi(text) {
+
+            p1 = document.getElementById("p1");
+            var orig = p1.innerText;
+            var str = orig.replace(text + ',', '');
+            p1.innerText = str;
+        }
+
+
+</script>
+<script>
+    function addCommas(str) {
+        return str.replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function test() {
+        var val = document.getElementById('test').value;
+        document.getElementById('test').value = addCommas(val);
+    }
+
+    function passvaluetobtn1() {
+        document.getElementById('d').value = document.getElementById('p1').innerText;
+        document.getElementById('selectedrooms').value = document.getElementById('p1').innerText;
+        {#document.getElementById('btn1').value = document.getElementById('p1').innerText;#}
+    }
+</script>
+
+</body>
+
+</html>

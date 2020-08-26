@@ -1,0 +1,36 @@
+<html>
+<header>
+    <script>
+        function addTextNode(text) {
+            newtext = document.createTextNode(text + ',');
+            p = document.getElementById("p");
+
+            var str = p.innerText;
+            if (!str.includes(newtext.wholeText))
+                p.appendChild(newtext);
+
+
+        }
+
+        function removeLi(text) {
+
+            p = document.getElementById("p");
+            var orig = p.innerText;
+            var str = orig.replace(text + ',', '');
+            p.innerText = str;
+        }
+
+
+    </script>
+</header>
+<body>
+<div onchange="document.getElementById('box').value=document.getElementById('p').innerText">
+    <input type="button" id="b2" value="1" ondblclick="removeLi('haii')" onclick="addTextNode('haii')">
+    <input type="button" id="b3" value="2" ondblclick="removeLi('hello')" onclick="addTextNode('hello')">
+    <input type="button" id="b3" value="3" ondblclick="removeLi('how')" onclick="addTextNode('how')">
+
+    <p style="border: solid darkgray 1px;height: 50px;width: 200px;background: white" id="p"></p>
+</div>
+
+</body>
+</html>

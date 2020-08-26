@@ -1,0 +1,478 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Rooms</title>
+    <link rel="stylesheet" href="{% static 'rooms/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
+    <link rel="stylesheet" href="{% static 'rooms/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-1.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-2.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-3.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-4.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-5.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled-6.css' %}">
+    <link rel="stylesheet" href="{% static 'rooms/css/untitled.css' %}">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background:  #124372  ; height: 100%;position: sticky;z-index: 1;top: 0;left: 0;">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-praying-hands"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>serenity</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" style="font-size: 15px; cursor: pointer"
+                       onclick="location.href='/dashboard'"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer"
+                       onclick="location.href='/bookings'"><i class="far fa-calendar-alt"></i><span>Booking</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer" onclick="location.href='/managerooms'"><i class="fas fa-wrench"></i><span>Rooms</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer" onclick="location.href='/agent'"><i class="fas fa-user-tie"></i><span>Agent</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer" onclick="location.href='/guest'"><i class="fas fa-smile"></i><span>Guest</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer"
+                       onclick="location.href='/settings'"><i class="fas fa-user-cog"></i><span>Settings</span></a>
+                    <a class="nav-link active" style="font-size: 15px;cursor: pointer"
+                       onclick="location.href='{% url 'logout' %}'"><i class="fas fa-lock"></i><span>Log out</span></a>
+                </li>
+            </ul>
+            <div class="text-center d-none d-md-inline">
+                <button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="d-flex flex-column" id="content-wrapper" style="color:  #3e3f40">
+        <div id="content">
+<nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i
+                            class="fas fa-bars"></i></button>
+                    <ul class="nav navbar-nav flex-nowrap ml-auto">
+
+                        <li class="nav-item dropdown no-arrow" role="presentation">
+                            <div class="nav-item dropdown no-arrow">
+                                    <span class="d-none d-lg-inline mr-2 text-gray-600 small">{{ usersession.username }}</span>
+                                    <img style="filter: invert(70%); width: 30px" src="{% static 'dashboard/img/avatars/aa.png' %}">
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+                                <div class="container-fluid">
+                        <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                            <h3  style="font-weight: 500;color: #2c2c2c"><i class="fas fa-cog"></i>  GUEST</h3>
+                        </div>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+                                    {% endfor %}
+                                {% endif %}
+                        <div style="margin-bottom: 50px;margin-top: 50px;">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="card">
+                                    <div class="card-header" style="background:#406182;">
+                                        <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                            <li class="nav-item"><a class="nav-link active" id="item-1-1-tab"
+                                                                    data-toggle="tab" role="tab"
+                                                                    aria-controls="item-1-1"
+                                                                    aria-selected="true" href="#item-1-1">All guests</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="item-1-2-tab" data-toggle="tab"
+                                                                    role="tab" aria-controls="item-1-2"
+                                                                    aria-selected="false" href="#item-1-2">Update</a></li>
+                                            <li class="nav-item"><a class="nav-link" id="item-1-3-tab" data-toggle="tab"
+                                                                    role="tab" aria-controls="item-1-3"
+                                                                    aria-selected="false" href="#item-1-3">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="nav-tabContent" class="tab-content">
+                                            <div id="item-1-1" class="tab-pane fade show active" role="tabpanel"
+                                                 aria-labelledby="item-1-1-tab">
+                                                <div style="/*padding: 50px;*/">
+                                                    <div class="container" style="padding: 0;">
+                                                        <div class="row" style="padding: 0;">
+                                                            <div class="col-sm-8 col-md-6 offset-sm-2 offset-md-3"
+                                                                 style="max-width: 100%;margin: auto;padding: 0;">
+                                                                <div class="card"
+                                                                     style= "padding-bottom: 40px;max-width: 100%;width: 1200px;">
+                                                                    <div class="card-header"
+                                                                         style=" padding-top: 30px;padding-left: 30px;padding-top: 20px;">
+                                                                        <div class="row">
+                                                                            <div class="col"
+                                                                                 style="/*padding-left: 20px;*/"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">ID</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Name</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Contact
+                                                                                number</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Email</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Address</label>
+                                                                            </div>
+{#                                                                            <div class="col"><label#}
+{#                                                                                    class="col-form-label"#}
+{#                                                                                    style="font-weight: 700;">Manage</label>#}
+{#                                                                            </div>#}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-header"
+                                                                         style="border: none; background: white;/*margin-top: 20px;*/padding-left: 30px;padding-top: 20px;padding-right: 30px;">
+                                                                        {% for item in data1 %}
+                                                                            <div class="row"
+                                                                                 style="margin-bottom: 10px;border-bottom: solid rgb(245,242,242);padding-bottom: 10px;">
+                                                                                <div class="col"
+                                                                                     style="/*padding-left: 20px;*/">
+                                                                                    <label
+                                                                                            class="col-form-label"
+                                                                                            style="color: black">{{ item.guestid }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.fname }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.phone }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.guest_email }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.house_name }}</label>
+                                                                                </div>
+{#                                                                                <div class="col">#}
+{#                                                                                    <button class="btn btn-primary"#}
+{#                                                                                            type="submit" name="btn4" value="{{ item.agentid }}"onclick="if(confirm('Are you sure ? Do you want to delete this agent from your database?')){}else{return false;};">Delete#}
+{#                                                                                    </button>#}
+{#                                                                                </div>#}
+
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="item-1-2" class="tab-pane fade"
+                                                 role="tabpanel" aria-labelledby="item-1-2-tab">
+                                                <div style="padding-right: 55px;margin-bottom: 50px;padding-left: 55px;padding-top: 10px;">
+                                                    <div class="row" style="margin-bottom: 20px;">
+                                                        <div class="col"><label
+                                                                style="/*font-weight: 600;*/font-size: 25px;">Guest ID  :</label>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="row">
+                                                                    <div class="dropdown"
+                                                                         style="margin-left: 12px; margin-right: 20px; width: 295px;text-align: right">
+                                                                        <select class="form-control form-control-user"
+                                                                                id="selectedguestid" name="selectedguestid">
+                                                                            <option>Select guest id</option>
+
+                                                                            {% for item in data1 %}
+                                                                                <option >{{ item.guestid }}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+
+                                                                <button class="btn btn-primary" name="btn1" type="submit" style="font-weight: 700;max-width: 100%;width: 100px;border: none;background:#a2a1a0;">Search</button>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+
+{#                                                        <label>{{ item.agent_name}}</label>#}
+
+                                                        </div>
+                                                    </div>{% for item in data2 %}
+                                                    <div class="row">
+
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col"><label class="col-form-label">ID
+                                                                    : </label></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedid" readonly style="background: white"
+                                                                                        class="form-control form-control-user" value="{{ item.guestid }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label class="col-form-label">Contact
+                                                                    number</label></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="number" oninput="maxLengthCheck(this)" maxlength="10" name="updatedphone" value="{{ item.phone }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Gender</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedgender"
+                                                                                        id="rate" value="{{ item.gender }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">State</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedstate"
+                                                                                        id="rate" value="{{ item.state }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col"><label class="col-form-label">Name
+                                                                </label></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedname" value="{{ item.fname }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Email ID</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="email" name="updatedemail"
+                                                                                        id="rate" value="{{ item.guest_email }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Marital status</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedmaritalstatus"
+                                                                                        id="rate" value="{{ item.marital_status }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Country</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedcountry"
+                                                                                        id="rate" value="{{ item.country }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Adderess</label></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updatedaddress" value="{{ item.house_name }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Age</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="number" name="updatedage" oninput="maxLengthCheck(this)" maxlength="2"
+                                                                                        id="rate" value="{{ item.age }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">District</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="text" name="updateddistrict"
+                                                                                        id="rate" value="{{ item.district }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><label
+                                                                        class="col-form-label">Pincode</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"><input type="number" name="updatedpincode" oninput="maxLengthCheck(this)" maxlength="6"
+                                                                                        id="rate" value="{{ item.pincode }}"
+                                                                                        class="form-control form-control-user">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <div class="col">
+                                                 <button class="btn btn-primary" type="submit" id="btn2" name="btn2" value="{{ item.guestid }}"
+                                                        style=" margin-top: 50px; margin-bottom: 30px;font-weight: 700;max-width: 100%;width: 100px;margin-left: 0px;border: none;background: rgb(76,203,76);">
+                                                    Update
+                                                 </button></div></div>
+                                                {% endfor %}
+                                                </div>
+{#                                                <button class="btn btn-primary" type="submit" id="btn3" name="btn3" value="{{ item.agentid }}"#}
+{#                                                        style="margin-bottom: 30px;font-weight: 700;max-width: 100%;width: 100px;margin-left: 55px;border: none;background: rgb(76,203,76);">#}
+{#                                                    Update#}
+{#                                                </button>#}
+                                            </div>
+                                            <div id="item-1-3" class="tab-pane fade" role="tabpanel"
+                                                 aria-labelledby="item-1-3-tab">
+                                                <div style="/*padding: 50px;*/">
+                                                    <div class="container" style="padding: 0;">
+                                                        <div class="row" style="padding: 0;">
+                                                            <div class="col-sm-8 col-md-6 offset-sm-2 offset-md-3"
+                                                                 style="max-width: 100%;margin: auto;padding: 0;">
+                                                                <div class="card"
+                                                                     style= "padding-bottom: 40px;max-width: 100%;width: 1200px;">
+                                                                    <div class="card-header"
+                                                                         style=" padding-top: 30px;padding-left: 30px;padding-top: 20px;">
+                                                                        <div class="row">
+                                                                            <div class="col"
+                                                                                 style="/*padding-left: 20px;*/"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">ID</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Name</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Contact
+                                                                                number</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Email</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Address</label>
+                                                                            </div>
+                                                                            <div class="col"><label
+                                                                                    class="col-form-label"
+                                                                                    style="font-weight: 700;">Manage</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-header"
+                                                                         style="border: none; background: white;/*margin-top: 20px;*/padding-left: 30px;padding-top: 20px;padding-right: 30px;">
+                                                                        {% for item in data1 %}
+                                                                            <div class="row"
+                                                                                 style="margin-bottom: 10px;border-bottom: solid rgb(245,242,242);padding-bottom: 10px;">
+                                                                                <div class="col"
+                                                                                     style="/*padding-left: 20px;*/">
+                                                                                    <label
+                                                                                            class="col-form-label"
+                                                                                            style="/*font-weight: 700;*/">{{ item.guestid }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.fname }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.phone }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.guest_email }}</label>
+                                                                                </div>
+                                                                                <div class="col"><label
+                                                                                        class="col-form-label"
+                                                                                        style="/*font-weight: 700;*/">{{ item.house_name }}</label>
+                                                                                </div>
+                                                                                <div class="col">
+                                                                                    <button class="btn btn-primary" style="background: brown;border: none;width: 38px;border-radius: 50px "
+                                                                                            type="submit" name="btn3" value="{{ item.guestid }}"onclick="if(confirm('Are you sure ? Do you want to delete this agent from your database?')){}else{return false;};"><i class="far fa-trash-alt"></i>
+                                                                                    </button>
+
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>
+<script src="{% static 'rooms/js/jquery.min.js' %}"></script>
+<script src="{% static 'rooms/bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+<script src="{% static 'rooms/js/theme.js' %}"></script>
+<script>
+    function maxLengthCheck(object) {
+        if (object.value.length > object.maxLength)
+            object.value = object.value.slice(0, object.maxLength)
+
+
+    }
+</script>
+</body>
+
+</html>
